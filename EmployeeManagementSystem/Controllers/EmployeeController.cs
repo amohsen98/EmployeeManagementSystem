@@ -2,12 +2,17 @@
 using EmployeeManagementSystem.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace EmployeeManagementSystem.Controllers
 {
     public class EmployeeController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();  
+        public IActionResult Index()
+        {
+            return View("Index", context.Employee.ToList());  
+        }
         public IActionResult Details(int id)
         {
             string msg = "Hello From Action";
@@ -43,15 +48,50 @@ namespace EmployeeManagementSystem.Controllers
             empVM.Msg = "Welcome";
             empVM.Branches = branches;
             return View("DetailsVM", empVM);
+        }
 
-
-
-
-
-           
-
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            Employee employee = context.Employee.FirstOrDefault(e=> e.Id == id);
+            return View("Edit", employee);
 
         }
+
+        [HttpPost]
+        //Employee Emp: an object containing the updated data for an employee.
+
+        public IActionResult SaveEdit(Employee Emp, int id)
+        {
+            if (Emp.Name != null)
+            {
+                Employee empfromdb = context.Employee.FirstOrDefault(e => e.Id == id);
+
+                empfromdb.Name = Emp.Name;
+                empfromdb.Salary = Emp.Salary;
+                empfromdb.JobTitle = Emp.JobTitle;
+                empfromdb.Address = Emp.Address;
+                empfromdb.ImageURL = Emp.ImageURL;
+                empfromdb.DepartmentID = Emp.DepartmentID;
+                return RedirectToAction("Index");
+
+            }
+            return View("Edit", Emp);
+
+        }
+        //[HttpPost]
+        //public IActionResult Edit(Employee employee)
+        //{
+        //    if (employee.Name != null)
+        //    {
+        //        context.Employee.Update(employee);
+        //        context.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(employee);
+        //}
+
+
 
     }
 }

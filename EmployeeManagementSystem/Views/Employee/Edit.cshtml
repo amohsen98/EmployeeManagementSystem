@@ -1,0 +1,45 @@
+﻿
+@model Employee
+
+<form method="post" action="/Employee/SaveEdit/@Model.Id">
+
+
+    <div>
+
+        <lable>Name</lable>
+        <input id ="Name" name="Name" type="text" value="@Model?.Name" class="form form-control" />
+    </div>
+
+    <div>
+
+        <lable>Salary</lable>
+        <input id="Salary" name="Salary" type="text" value="@Model?.Salary" class="form form-control" />
+    </div>
+    <div>
+
+        <lable>JobTitle</lable>
+        <input id="JobTitle" name="JobTitle" type="text" value="@Model?.JobTitle" class="form form-control" />
+    </div>
+    <div>
+
+        <lable>Image</lable>
+        <input id="ImageURL" name="ImageURL" type="text" value="@Model?.ImageURL" class="form form-control" />
+    </div>
+    <div>
+
+        <lable>Address</lable>
+        <input id="Address" name="Address" type="text" value="@Model?.Address" class="form form-control" />
+    </div>
+    <div>
+
+        <lable>DepartmentID</lable>
+        <input id="DepartmentID" name="DepartmentID" type="text" value="@Model?.DepartmentID" class="form form-control" />
+    </div>
+
+
+    <input type="submit" value="Update" class="btn btn-primary"/>
+    
+
+
+
+</form>
