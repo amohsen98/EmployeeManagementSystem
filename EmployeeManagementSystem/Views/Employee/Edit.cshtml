@@ -1,5 +1,5 @@
-﻿
-@model Employee
+﻿@using EmployeeManagementSystem.ViewModel;
+@model EmpWithDeptListVM
 
 <form method="post" action="/Employee/SaveEdit/@Model.Id">
 
@@ -33,7 +33,24 @@
     <div>
 
         <lable>DepartmentID</lable>
-        <input id="DepartmentID" name="DepartmentID" type="text" value="@Model?.DepartmentID" class="form form-control" />
+@*         <input id="DepartmentID" name="DepartmentID" type="text" value="@Model?.DepartmentID" class="form form-control" />
+ *@
+ <select id="DepartmentID" name="DepartmentID" class="form form-control">
+     @foreach(var deptitem in Model.DepList)
+
+            {
+                if(Model.DepartmentID == deptitem.Id){
+                    <option value="@deptitem.Id" selected>@deptitem.Name</option>
+                }
+                else
+                {
+                    <option value="@deptitem.Id" >@deptitem.Name</option>
+
+                }
+            }
+
+
+ </select>
     </div>
 
 
@@ -43,3 +60,15 @@
 
 
 </form>
+
+
+@* <!-- selct form dropdown list-->
+<form>
+
+    <select name="DepttID">
+        <option value="1">SD</option>
+        <option value="2">HR</option>
+        <option value="3">SW</option>
+    </select>
+    <input type="submit"/>
+</form> *@

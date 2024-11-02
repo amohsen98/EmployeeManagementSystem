@@ -54,14 +54,26 @@ namespace EmployeeManagementSystem.Controllers
         public IActionResult Edit(int id)
         {
             Employee employee = context.Employee.FirstOrDefault(e=> e.Id == id);
-            return View("Edit", employee);
+            List<Department> DepartmentList = context.Department.ToList();
+
+            // Map to viewmodel right now!
+            EmpWithDeptListVM empWithDeptListVM = new EmpWithDeptListVM();
+            empWithDeptListVM.DepList = DepartmentList;
+            empWithDeptListVM.Id = employee.Id;
+            empWithDeptListVM.Name = employee.Name;
+            empWithDeptListVM.Salary = employee.Salary;
+            empWithDeptListVM.JobTitle  = employee.JobTitle;
+            empWithDeptListVM.ImageURL = employee.ImageURL;
+            empWithDeptListVM.Address = employee.Address;
+            empWithDeptListVM.DepartmentID = employee.DepartmentID;
+            return View("Edit", empWithDeptListVM);
 
         }
 
         [HttpPost]
         //Employee Emp: an object containing the updated data for an employee.
 
-        public IActionResult SaveEdit(Employee Emp, int id)
+        public IActionResult SaveEdit(EmpWithDeptListVM Emp, int id)
         {
             if (Emp.Name != null)
             {
@@ -73,9 +85,12 @@ namespace EmployeeManagementSystem.Controllers
                 empfromdb.Address = Emp.Address;
                 empfromdb.ImageURL = Emp.ImageURL;
                 empfromdb.DepartmentID = Emp.DepartmentID;
+                context.SaveChanges();
                 return RedirectToAction("Index");
 
             }
+            Emp.DepList = context.Department.ToList();
+            
             return View("Edit", Emp);
 
         }
